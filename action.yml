@@ -1,0 +1,69 @@
+name: 'SourceCred Action'
+description: 'Generate cred scores and an interface for your projects'
+author: 'vsoch'
+branding:
+  icon: 'sliders'
+  color: 'blue'
+inputs:
+  automated:
+    description: >
+      Push changes to the target branch.  If set to false (the default)
+      open a pull request with changes instead.
+    default: false
+  branch-against:
+    description: >
+      If automated is set to false and we open a pull request, open the pull
+      request against the branch specified here. This defaults to master.
+    default: "master"
+  project:
+    description: 'a project spec; see help for cli/load.js for details'
+    default: null
+    required: false
+  project-file: 
+    description: 'the path to a file containing a project config'
+    default: null
+    required: false
+  scores-args:
+    description: >
+      The input argument to be given to scores. Defaults to the GitHub repository
+      name, with an @ (e.g., @sourcecred).
+    default: "@${{ github.repository }}"
+  scores-json:
+    description: 'the relative path to save the scores.json. Defaults to scores.json'
+    default: "scores.json"
+  target:
+    description: 'an empty directory into which to build the site'
+    required: false
+  weights:
+    description: 'path to a json file which contains a weights configuration.'
+    default: null
+    required: false
+  no-backend:
+    description: 'do not run "yarn backend"; see also the SOURCECRED_BIN'
+    default: false
+    required: false
+  backend-dir: 
+    description: >
+      When using --no-backend, directory containing the SourceCred Executables.
+      (output of "yarn backend"). Default is ./bin and ignored when
+      no-backend is set to false.
+    default: ./bin
+  token:
+    description: >
+      Auth token used to fetch the repository.
+    default: ${{ github.token }}
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    - SC_TARGET: ${{ inputs.target }}
+    - SC_PROJECT: ${{ inputs.project }}
+    - SC_PROJECT_FILE: ${{ inputs.project-file }}
+    - SC_AUTOMATED: ${{ inputs.automated }}
+    - SC_BRANCH_AGAINST: ${{ inputs.branch-against }}
+    - SC_SCORES_ARGS: ${{ inputs.scores-args}}
+    - SC_SCORES_JSON: ${{ inputs.scores-json }}
+    - SC_WEIGHTS: ${{ inputs.weights }}
+    - SC_NOBACKEND: ${{ inputs.no-backend }}
+    - SC_BACKEND_DIR: ${{ inputs.backend-dir }}
+    - SOURCECRED_GITHUB_TOKEN: ${{ inputs.token }}
