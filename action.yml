@@ -56,14 +56,14 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    - SC_TARGET: ${{ inputs.target }}
-    - SC_PROJECT: ${{ inputs.project }}
-    - SC_PROJECT_FILE: ${{ inputs.project-file }}
-    - SC_PROJECT_ID: ${{ inputs.project-id }}
-    - SC_AUTOMATED: ${{ inputs.automated }}
-    - SC_BRANCH_AGAINST: ${{ inputs.branch-against }}
-    - SC_SCORES_JSON: ${{ inputs.scores-json }}
-    - SC_WEIGHTS: ${{ inputs.weights }}
-    - SC_NOBACKEND: ${{ inputs.no-backend }}
-    - SC_BACKEND_DIR: ${{ inputs.backend-dir }}
-    - SOURCECRED_GITHUB_TOKEN: ${{ inputs.token }}
+    SC_TARGET: ${{ inputs.target }}
+    SC_PROJECT: ${{ inputs.project }}
+    SC_PROJECT_FILE: ${{ inputs.project-file }}
+    SC_PROJECT_ID: ${{ inputs.project-id }}
+    SC_AUTOMATED: ${{ inputs.automated }}
+    SC_BRANCH_AGAINST: ${{ inputs.branch-against }}
+    SC_SCORES_JSON: ${{ inputs.scores-json }}
+    SC_WEIGHTS: ${{ inputs.weights }}
+    SC_NOBACKEND: ${{ inputs.no-backend }}
+    SC_BACKEND_DIR: ${{ inputs.backend-dir }}
+    SOURCECRED_GITHUB_TOKEN: ${{ inputs.token }}

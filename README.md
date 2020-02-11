@@ -24,6 +24,7 @@ with:
   weights: 'weights.json'
   project: 'projects/combined.json'  
   branch-against: master
+  project-id: '@sourcecred'
 ```
 
 In the above, automated set to false will open a pull request against master (branch-against).
@@ -36,8 +37,11 @@ with:
   project: 'projects/combined.json'  
   automated: true
   branch-against: master
+  project-id: '@sourcecred'
 ```
 
+The project id is given to the scores function, and should correspond with any project
+ids referenced in the weights or projects configuration files.
 
 ## Development
 
