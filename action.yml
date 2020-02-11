@@ -16,18 +16,14 @@ inputs:
       request against the branch specified here. This defaults to master.
     default: "master"
   project:
-    description: 'a project spec; see help for cli/load.js for details'
-    default: null
-    required: false
-  project-file: 
-    description: 'the path to a file containing a project config'
-    default: null
-    required: false
-  project-id:
     description: >
       The project id (e.g., @sourcecred), must match a project id in any
       provided project files.
     default: "@${{ github.repository }}"
+  project-file: 
+    description: 'the path to a file containing a project config'
+    default: null
+    required: false
   scores-json:
     description: 'the relative path to save the scores.json. Defaults to scores.json'
     default: "scores.json"
@@ -57,9 +53,8 @@ runs:
   image: 'Dockerfile'
   env:
     SC_TARGET: ${{ inputs.target }}
-    SC_PROJECT: ${{ inputs.project }}
     SC_PROJECT_FILE: ${{ inputs.project-file }}
-    SC_PROJECT_ID: ${{ inputs.project-id }}
+    SC_PROJECT: ${{ inputs.project }}
     SC_AUTOMATED: ${{ inputs.automated }}
     SC_BRANCH_AGAINST: ${{ inputs.branch-against }}
     SC_SCORES_JSON: ${{ inputs.scores-json }}

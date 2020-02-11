@@ -21,10 +21,10 @@ sourcecred organization).
 ```
 uses: vsoch/cred-action@master
 with:
-  weights: 'weights.json'
-  project: 'projects/combined.json'  
+  weights: weights.json
+  project: '@sourcecred'
+  project-file: projects/combined.json
   branch-against: master
-  project-id: '@sourcecred'
 ```
 
 In the above, automated set to false will open a pull request against master (branch-against).
@@ -33,11 +33,11 @@ You can also set automated to true to push directly to a branch:
 ```
 uses: vsoch/cred-action@master
 with:
-  weights: 'weights.json'
-  project: 'projects/combined.json'  
+  weights: weights.json
+  project: '@sourcecred'
+  project-file: projects/combined.json
   automated: true
   branch-against: master
-  project-id: '@sourcecred'
 ```
 
 The project id is given to the scores function, and should correspond with any project

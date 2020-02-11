@@ -8,15 +8,12 @@ set -o pipefail
 
 COMMAND="/bin/bash /code/scripts/build_static_site.sh"
 
-# Target is required
+# Target is required, project has a default
 if [ -z "${SC_TARGET}" ]; then
    SC_TARGET="${GITHUB_WORKSPACE}/docs"        
 fi
 COMMAND="${COMMAND} --target ${SC_TARGET}"
-
-if [ ! -z "${SC_PROJECT}" ]; then
-    COMMAND="${COMMAND} --project ${GITHUB_WORKSPACE}/${SC_PROJECT}"
-fi
+COMMAND="${COMMAND} --project ${SC_PROJECT}"
 
 if [ ! -z "${SC_PROJECT_FILE}" ]; then
     COMMAND="${COMMAND} --project-file ${GITHUB_WORKSPACE}/${SC_PROJECT_FILE}"
@@ -27,6 +24,7 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
 fi
 
 if [ ! -z "${SC_NOBACKEND}" ]; then
+    echo "--no-backend specified"
     COMMAND="${COMMAND} --no-backend"
 
     # Only export SOURCECRED_BIN when --no-backend being used
@@ -44,8 +42,13 @@ ${COMMAND}
 
 # This interacts with node sourcecred.js
 # Load it twice so we can access the scores -- it's a hack, pending real instance system
-/bin/bash /code/docker-entrypoint.sh load --project "${GITHUB_WORKSPACE}/${SC_PROJECT}" --weights "${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
-/bin/bash /code/docker-entrypoint.sh scores "${SC_PROJECT_ID}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
+# Note from @vsoch: these variable names aren't consistent - the project here referes to the project file.
+LOAD_COMMAND="/bin/bash /code/docker-entrypoint.sh load --project ${GITHUB_WORKSPACE}/${SC_PROJECT_FILE}"
+if [ ! -z "${SC_WEIGHTS}" ]; then
+    LOAD_COMMAND="${LOAD_COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
+fi
+echo "$LOAD_COMMAND"
+/bin/bash /code/docker-entrypoint.sh scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
 
 # Now we want to interact with the GitHub repository
 # The GitHub workspace has the root of the repository
