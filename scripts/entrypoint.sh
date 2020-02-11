@@ -23,8 +23,7 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
     COMMAND="${COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi
 
-if [ ! -z "${SC_NOBACKEND}" ]; then
-    echo "--no-backend specified"
+if [ "${SC_NOBACKEND}" == "true" ]; then
     COMMAND="${COMMAND} --no-backend"
 
     # Only export SOURCECRED_BIN when --no-backend being used
