@@ -44,7 +44,7 @@ ${COMMAND}
 # This interacts with node sourcecred.js
 # Load it twice so we can access the scores -- it's a hack, pending real instance system
 /bin/bash /code/docker-entrypoint.sh load --project "${GITHUB_WORKSPACE}/${SC_PROJECT}" --weights "${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
-/bin/bash /code/docker-entrypoint.sh scores "${SC_SCORES_ARGS}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
+/bin/bash /code/docker-entrypoint.sh scores "${SC_PROJECT_ID}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
 
 # Now we want to interact with the GitHub repository
 # The GitHub workspace has the root of the repository

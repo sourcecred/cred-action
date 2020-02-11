@@ -23,10 +23,10 @@ inputs:
     description: 'the path to a file containing a project config'
     default: null
     required: false
-  scores-args:
+  project-id:
     description: >
-      The input argument to be given to scores. Defaults to the GitHub repository
-      name, with an @ (e.g., @sourcecred).
+      The project id (e.g., @sourcecred), must match a project id in any
+      provided project files.
     default: "@${{ github.repository }}"
   scores-json:
     description: 'the relative path to save the scores.json. Defaults to scores.json'
@@ -59,9 +59,9 @@ runs:
     - SC_TARGET: ${{ inputs.target }}
     - SC_PROJECT: ${{ inputs.project }}
     - SC_PROJECT_FILE: ${{ inputs.project-file }}
+    - SC_PROJECT_ID: ${{ inputs.project-id }}
     - SC_AUTOMATED: ${{ inputs.automated }}
     - SC_BRANCH_AGAINST: ${{ inputs.branch-against }}
-    - SC_SCORES_ARGS: ${{ inputs.scores-args}}
     - SC_SCORES_JSON: ${{ inputs.scores-json }}
     - SC_WEIGHTS: ${{ inputs.weights }}
     - SC_NOBACKEND: ${{ inputs.no-backend }}
