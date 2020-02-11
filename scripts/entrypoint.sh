@@ -28,10 +28,11 @@ fi
 
 if [ ! -z "${SC_NOBACKEND}" ]; then
     COMMAND="${COMMAND} --no-backend"
-fi
 
-if [ ! -z "${SC_BACKEND_DIR}" ]; then
-    COMMAND="SOURCECRED_BIN=${SC_BACKEND_DIR} ${COMMAND}"
+    # Only export SOURCECRED_BIN when --no-backend being used
+    if [ ! -z "${SC_BACKEND_DIR}" ]; then
+        export SOURCECRED_BIN="${SC_BACKEND_DIR}"
+    fi
 fi
 
 # Clean up any previous runs (deployed in docs folder)
