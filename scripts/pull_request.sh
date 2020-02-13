@@ -80,20 +80,20 @@ main () {
     check_events_json;
 
     # User specified branch for PR
-    if [ -z "${BRANCH_FROM}" ]; then
+    if [ -z "${UPDATE_BRANCH}" ]; then
         echo "You must specify a branch to PR from."
         exit 1
     fi
-    echo "Branch for pull request is $BRANCH_FROM"
+    echo "Branch for pull request is ${UPDATE_BRANCH}"
 
-    if [ -z "${BRANCH_AGAINST}" ]; then
-        BRANCH_AGAINST=master
+    if [ -z "${SC_BRANCH_AGAINST}" ]; then
+        SC_BRANCH_AGAINST=master
     fi
-    echo "Pull request will go against ${BRANCH_AGAINST}"
+    echo "Pull request will go against ${SC_BRANCH_AGAINST}"
 
     # Ensure we have a GitHub token
     check_credentials
-    create_pull_request $BRANCH_FROM $BRANCH_AGAINST
+    create_pull_request "${UPDATE_BRANCH}" "${SC_BRANCH_AGAINST}"
 
 }
 

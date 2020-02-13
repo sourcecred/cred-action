@@ -62,7 +62,7 @@ git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
 
 # Automated means that we push to a branch, otherwise we open a pull request
-if [ ! -z "${SC_AUTOMATED}" == "true" ]; then
+if [ "${SC_AUTOMATED}" == "true" ]; then
     echo "Automated PR requested"
     UPDATE_BRANCH="${SC_BRANCH_AGAINST}"
 else
@@ -74,7 +74,7 @@ echo "Branch to update is ${UPDATE_BRANCH}"
 git checkout -b ${UPDATE_BRANCH}
 git branch
 
-if [ ! -z "${SC_AUTOMATED}" == "true" ]; then
+if [ "${SC_AUTOMATED}" == "true" ]; then
     git pull origin "${UPDATE_BRANCH}" || echo "Branch not yet on remote"
     git add "${SC_TARGET}/*"
     git add "${SC_SCORES_JSON}"
