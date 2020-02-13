@@ -34,10 +34,6 @@ usage() {
 
 main() {
     parse_args "$@"
-
-    toplevel="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
-    cd "${toplevel}"
-
     sourcecred_data=
     build
 }

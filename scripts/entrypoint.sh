@@ -23,6 +23,11 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
     COMMAND="${COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi
 
+# Show the user where we are
+echo "Present working directory is:"
+echo "${PWD}"
+ls
+
 # Clean up any previous runs (deployed in docs folder)
 # This command needs to be run relative to sourcecred respository
 # that is located at the WORKDIR /code
