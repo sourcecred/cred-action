@@ -50,3 +50,4 @@ runs:
     SC_SCORES_JSON: ${{ inputs.scores-json }}
     SC_WEIGHTS: ${{ inputs.weights }}
     SOURCECRED_GITHUB_TOKEN: ${{ inputs.token }}
+    GITHUB_TOKEN: ${{ inputs.token }}
