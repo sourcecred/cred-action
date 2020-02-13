@@ -46,6 +46,7 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
     LOAD_COMMAND="${LOAD_COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi
 echo "$LOAD_COMMAND"
+${LOAD_COMMAND}
 node /code/bin/sourcecred.js scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
 
 # Now we want to interact with the GitHub repository
