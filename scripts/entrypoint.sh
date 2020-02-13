@@ -35,15 +35,18 @@ rm -rf "${SC_TARGET}"
 echo "${COMMAND}"
 ${COMMAND}
 
+echo "Finished initial run, present working directory is ${PWD}"
+ls
+
 # This interacts with node sourcecred.js
 # Load it twice so we can access the scores -- it's a hack, pending real instance system
 # Note from @vsoch: these variable names aren't consistent - the project here referes to the project file.
-LOAD_COMMAND="/bin/bash /code/scripts/docker-entrypoint.sh load --project ${GITHUB_WORKSPACE}/${SC_PROJECT_FILE}"
+LOAD_COMMAND="node /code/bin/sourcecred.js load --project ${GITHUB_WORKSPACE}/${SC_PROJECT_FILE}"
 if [ ! -z "${SC_WEIGHTS}" ]; then
     LOAD_COMMAND="${LOAD_COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi
 echo "$LOAD_COMMAND"
-/bin/bash /code/scripts/docker-entrypoint.sh scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
+node /code/bin/sourcecred.js scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
 
 # Now we want to interact with the GitHub repository
 # The GitHub workspace has the root of the repository

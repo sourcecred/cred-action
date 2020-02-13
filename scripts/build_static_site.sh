@@ -128,6 +128,8 @@ build() {
     # Do we need to be in sourcecred directory here?
     cd /code
     yarn -s build --output-path "${target}"
+    echo "Output in target ${target}:"
+    ls
 
     # Copy the SourceCred data into the appropriate API route. Using
     # `mkdir` here will fail in the case where an `api/` folder exists,
