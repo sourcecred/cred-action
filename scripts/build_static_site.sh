@@ -125,6 +125,8 @@ build() {
         done
     fi
 
+    # Do we need to be in sourcecred directory here?
+    cd /code
     yarn -s build --output-path "${target}"
 
     # Copy the SourceCred data into the appropriate API route. Using
