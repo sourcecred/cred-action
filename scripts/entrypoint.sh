@@ -6,7 +6,7 @@ set -o pipefail
 # and customizes the entrypoint based on what the user has provided.
 # We derive variables from the environment instead of command line
 
-COMMAND="/bin/bash /code/scripts/build_static_site.sh"
+COMMAND="/bin/bash /build_static_site.sh"
 
 # Target is required, project has a default
 if [ -z "${SC_TARGET}" ]; then
@@ -23,18 +23,9 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
     COMMAND="${COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi
 
-if [ "${SC_NOBACKEND}" == "true" ]; then
-    COMMAND="${COMMAND} --no-backend"
-
-    # Only export SOURCECRED_BIN when --no-backend being used
-    if [ ! -z "${SC_BACKEND_DIR}" ]; then
-        export SOURCECRED_BIN="${SC_BACKEND_DIR}"
-    fi
-fi
-
 # Clean up any previous runs (deployed in docs folder)
-# This command needs to be run relative to the sourcecred repository
-# which is the WORKDIR under /code in the base container
+# This command needs to be run relative to sourcecred respository
+# that is located at the WORKDIR /code
 rm -rf "${SC_TARGET}"
 echo "${COMMAND}"
 ${COMMAND}
@@ -47,7 +38,7 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
     LOAD_COMMAND="${LOAD_COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi
 echo "$LOAD_COMMAND"
-/bin/bash /code/docker-entrypoint.sh scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
+/bin/bash /code/scripts/docker-entrypoint.sh scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
 
 # Now we want to interact with the GitHub repository
 # The GitHub workspace has the root of the repository
