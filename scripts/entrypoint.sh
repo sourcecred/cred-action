@@ -47,7 +47,7 @@ if [ ! -z "${SC_WEIGHTS}" ]; then
 fi
 echo "$LOAD_COMMAND"
 ${LOAD_COMMAND}
-node /code/bin/sourcecred.js scores "${SC_PROJECT}" | jq '.' > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
+node /code/bin/sourcecred.js scores "${SC_PROJECT}" | python3 -m json.tool > "${GITHUB_WORKSPACE}/${SC_SCORES_JSON}"
 
 # Now we want to interact with the GitHub repository
 # The GitHub workspace has the root of the repository
