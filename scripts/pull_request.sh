@@ -54,8 +54,9 @@ create_pull_request() {
     BODY='This is a pull request to update sourcecred static files.'
     DATA="{\"base\":\"${TARGET}\", \"head\":\"${SOURCE}\", \"body\":\"${BODY}\"}"
     RESPONSE=$(curl -sSL -H "${AUTH_HEADER}" -H "${HEADER}" --user "${GITHUB_ACTOR}" -X GET --data "${DATA}" ${PULLS_URL})
-    PR=$(echo "${RESPONSE}" | jq --raw-output '.[] | .head.ref')
-    echo "Response ref: ${PR}"
+    PR=$(echo "${RESPONSE}" | python3 -c 'import json, sys
+data = json.load(sys.stdin);
+print(data[0]["head"]["ref"])')
 
     # Option 1: The pull request is already open
     if [[ "${PR}" == "${SOURCE}" ]]; then
