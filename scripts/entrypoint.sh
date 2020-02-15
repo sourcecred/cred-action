@@ -27,7 +27,7 @@ ls
 # that is located at the WORKDIR /code
 (
     set -x;
-    /bin/bash /build_static_site.sh \
+    /build_static_site.sh \
         --target "${INPUT_TARGET}" \
         --project-file "${INPUT_PROJECT_FILE}" \
         ${INPUT_WEIGHTS:+--weights "${INPUT_WEIGHTS}"} \
@@ -84,5 +84,5 @@ else
     git add "${INPUT_SCORES_JSON}"
     git commit -m "Automated deployment to update ${INPUT_TARGET} static files $(date '+%Y-%m-%d')"
     git push origin "${UPDATE_BRANCH}"
-    /bin/bash -e /pull_request.sh
+    /pull_request.sh
 fi
