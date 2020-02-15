@@ -102,13 +102,10 @@ build() {
         die 'project-file is required.'
     fi
 
-    local weightsStr=""
-    if [ -n "${weights}" ]; then
-        weightsStr="--weights ${weights}"
-    fi
     for project_file in "${project_files[@]}"; do
         NODE_PATH="/code/node_modules${NODE_PATH:+:${NODE_PATH}}" \
-            node /code/bin/sourcecred.js load --project "${project_file}" $weightsStr
+            node /code/bin/sourcecred.js load --project "${project_file}" \
+                ${weights:+--weights "${weights}"}
     done
 
     # Do we need to be in sourcecred directory here?
