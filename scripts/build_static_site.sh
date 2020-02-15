@@ -41,7 +41,6 @@ main() {
 parse_args() {
     target=
     weights=
-    repos=( )
     project_files=( )
     while [ $# -gt 0 ]; do
         case "$1" in
