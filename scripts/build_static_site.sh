@@ -98,6 +98,18 @@ build() {
     fi
     echo "Data in: ${SOURCECRED_DIRECTORY}"
 
+    if [ "${#projects[@]}" -ne 0 ]; then
+        local weightsStr=""
+        if [ -n "${weights}" ]; then
+            weightsStr="--weights ${weights}"
+        fi
+        for project in "${projects[@]}"; do
+            NODE_PATH="/code/node_modules${NODE_PATH:+:${NODE_PATH}}" \
+                node /code/bin/sourcecred.js load "${project}" $weightsStr
+        done
+    fi
+    echo "Data in: ${SOURCECRED_DIRECTORY}"
+
     # Load project files (required)
     if [ "${#project_files[@]}" -eq 0 ]; then
         die 'project-file is required.'
