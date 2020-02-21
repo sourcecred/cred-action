@@ -13,12 +13,20 @@ if [ -z "${SC_TARGET}" ]; then
    SC_TARGET="${GITHUB_WORKSPACE}/docs"        
 fi
 COMMAND="${COMMAND} --target ${SC_TARGET}"
-COMMAND="${COMMAND} --project ${SC_PROJECT}"
 
-if [ ! -z "${SC_PROJECT_FILE}" ]; then
-    COMMAND="${COMMAND} --project-file ${GITHUB_WORKSPACE}/${SC_PROJECT_FILE}"
+# Project file and if are both required for generation!
+# The action requires, but we have the double check here for a fallback
+if [ -z "${SC_PROJECT_FILE}" ]; then
+    echo "Project file (project-file) is required"
+    exit 1
 fi
+if [ -z "${SC_PROJECT}" ]; then
+    echo "Project identifier (project) is required"
+    exit 1
+fi
+COMMAND="${COMMAND} --project-file ${GITHUB_WORKSPACE}/${SC_PROJECT_FILE}"
 
+# Weights are not required, added if defined
 if [ ! -z "${SC_WEIGHTS}" ]; then
     COMMAND="${COMMAND} --weights ${GITHUB_WORKSPACE}/${SC_WEIGHTS}"
 fi

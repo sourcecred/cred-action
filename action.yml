@@ -17,13 +17,14 @@ inputs:
     default: "master"
   project:
     description: >
-      The project id (e.g., @sourcecred), must match a project id in any
-      provided project files.
+      A GitHub project alias (e.g., @sourcecred), meaning an organization or
+      full repository. This variable is only used if project-file (suggested)
+      is not provided. 
     default: "@${{ github.repository }}"
+    required: true
   project-file: 
     description: 'the path to a file containing a project config'
-    default: null
-    required: false
+    required: true
   scores-json:
     description: 'the relative path to save the scores.json. Defaults to scores.json'
     default: "scores.json"

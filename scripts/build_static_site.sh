@@ -42,7 +42,6 @@ parse_args() {
     target=
     weights=
     repos=( )
-    projects=( )
     project_files=( )
     while [ $# -gt 0 ]; do
         case "$1" in
@@ -61,11 +60,6 @@ parse_args() {
                 shift
                 if [ $# -eq 0 ]; then die 'missing value for --weights'; fi
                 weights="$1"
-                ;;
-            --project)
-                shift
-                if [ $# -eq 0 ]; then die 'missing value for --project'; fi
-                projects+=( "$1" )
                 ;;
             --project-file)
                 shift
@@ -103,27 +97,19 @@ build() {
     sourcecred_data="$(mktemp -d --suffix ".sourcecred-data")"
     export SOURCECRED_DIRECTORY="${sourcecred_data}"
 
-    if [ "${#projects[@]}" -ne 0 ]; then
-        local weightsStr=""
-        if [ -n "${weights}" ]; then
-            weightsStr="--weights ${weights}"
-        fi
-        for project in "${projects[@]}"; do
-            NODE_PATH="/code/node_modules${NODE_PATH:+:${NODE_PATH}}" \
-                node /code/bin/sourcecred.js load "${project}" $weightsStr
-        done
+    # Load project files (required)
+    if [ "${#project_files[@]}" -eq 0 ]; then
+        die 'project-file is required.'
     fi
 
-    if [ "${#project_files[@]}" -ne 0 ]; then
-        local weightsStr=""
-        if [ -n "${weights}" ]; then
-            weightsStr="--weights ${weights}"
-        fi
-        for project_file in "${project_files[@]}"; do
-            NODE_PATH="/code/node_modules${NODE_PATH:+:${NODE_PATH}}" \
-                node /code/bin/sourcecred.js load --project "${project_file}" $weightsStr
-        done
+    local weightsStr=""
+    if [ -n "${weights}" ]; then
+        weightsStr="--weights ${weights}"
     fi
+    for project_file in "${project_files[@]}"; do
+        NODE_PATH="/code/node_modules${NODE_PATH:+:${NODE_PATH}}" \
+            node /code/bin/sourcecred.js load --project "${project_file}" $weightsStr
+    done
 
     # Do we need to be in sourcecred directory here?
     cd /code
