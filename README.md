@@ -14,7 +14,17 @@ or continue reading for a basic example.
 ## Usage
 
 This is under development, and currently hosted at vsoch (future will be at
-sourcecred organization).
+sourcecred organization). The suggested best practice is to use a project file,
+which should define the users, plugins, and plugin details (e.g., repositories) 
+to run sourcecred on. This is the `project-file` variable. 
+Within the file, you'll also have defined a project id, something like this:
+
+```json
+    "id": "@sourcecred",
+```
+
+And this is the `project` id. Both are shown below in entirety, and required
+for the action to run.
 
 ```yaml
 uses: vsoch/cred-action@master
