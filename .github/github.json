@@ -1,0 +1,21 @@
+[
+  {
+    "type": "sourcecred/project",
+    "version": "0.3.0"
+  },
+  {
+    "discourseServer": null,
+    "id": "@sourcecred",
+    "identities": [],
+    "repoIds": [
+      {
+        "name": "widgets",
+        "owner": "sourcecred"
+      },
+      {
+        "name": "sourcecred-action",
+        "owner": "sourcecred"
+      }
+    ]
+  }
+]

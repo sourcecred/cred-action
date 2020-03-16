@@ -6,36 +6,23 @@ env:
   # name of docker image
   image: cred-action
 
-  # repository to checkout to test container
-  repository: vsoch/sourcecred-cred
-
-  # subfolder to clone action to build Docker container
-  builddir: _build
-
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Actions Repository
       uses: actions/checkout@v2
-      with:
-        path: '${{ env.builddir }}'
     - name: Build action container
       env:
-        builddir: '${{ env.builddir }}'
         image: '${{ env.image }}'
-      run: cd ${builddir} && docker build -t "${image}" .
-    - name: Checkout testing repository
-      uses: actions/checkout@v2
-      with:
-        repository: '${{ env.repository }}'
+      run: docker build -t "${image}" .
 
     # These envars are what would be set by the user in the workflow
     - name: Test Action with Container
       env:
 
         # project-file
-        INPUT_PROJECT_FILE: projects/combined.json
+        INPUT_PROJECT_FILE: .github/github.json
 
         # project identifier
         INPUT_PROJECT: '@sourcecred'
@@ -47,14 +34,14 @@ jobs:
         INPUT_SCORES_JSON: scores.json
 
         # weights
-        INPUT_WEIGHTS: weights.json
+        INPUT_WEIGHTS: .github/weights.json
 
         # target
         INPUT_TARGET: docs
 
         # automated (not relevant since test run is set)
         INPUT_AUTOMATED: false
-        INPUT_TEST_RUN: false
+        INPUT_TEST_RUN: true
 
         # github workspace would normally be honored in container
         GITHUB_WORKSPACE: /github/workspace
