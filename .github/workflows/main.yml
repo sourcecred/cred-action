@@ -1,0 +1,67 @@
+name: Main testing workflow
+on: [pull_request]
+
+env:
+
+  # name of docker image
+  image: cred-action
+
+  # repository to checkout to test container
+  repository: vsoch/sourcecred-cred
+
+  # subfolder to clone action to build Docker container
+  builddir: _build
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Actions Repository
+      uses: actions/checkout@v2
+      with:
+        path: '${{ env.builddir }}'
+    - name: Build action container
+      env:
+        builddir: '${{ env.builddir }}'
+        image: '${{ env.image }}'
+      run: cd ${builddir} && docker build -t "${image}" .
+    - name: Checkout testing repository
+      uses: actions/checkout@v2
+      with:
+        repository: '${{ env.repository }}'
+
+    # These envars are what would be set by the user in the workflow
+    - name: Test Action with Container
+      env:
+
+        # project-file
+        INPUT_PROJECT_FILE: projects/combined.json
+
+        # project identifier
+        INPUT_PROJECT: '@sourcecred'
+
+        # branch-against
+        INPUT_BRANCH_AGAINST: "master"
+
+        # scores-json
+        INPUT_SCORES_JSON: scores.json
+
+        # weights
+        INPUT_WEIGHTS: weights.json
+
+        # target
+        INPUT_TARGET: docs
+
+        # automated (not relevant since test run is set)
+        INPUT_AUTOMATED: false
+        INPUT_TEST_RUN: false
+
+        # github workspace would normally be honored in container
+        GITHUB_WORKSPACE: /github/workspace
+
+        image: '${{ env.image }}'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        SOURCECRED_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      run: docker run --workdir /github/workspace --rm -e token -e INPUT_PROJECT_FILE -e INPUT_TARGET -e INPUT_PROJECT -e INPUT_AUTOMATED -e INPUT_TEST_RUN -e INPUT_BRANCH_AGAINST -e INPUT_SCORES_JSON -e INPUT_WEIGHTS -e SOURCECRED_GITHUB_TOKEN -e GITHUB_TOKEN -e HOME -e GITHUB_REF -e GITHUB_SHA -e GITHUB_REPOSITORY -e GITHUB_RUN_ID -e GITHUB_RUN_NUMBER -e GITHUB_ACTOR -e GITHUB_WORKFLOW -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -e GITHUB_EVENT_NAME -e GITHUB_WORKSPACE -e GITHUB_ACTION -e GITHUB_EVENT_PATH -e RUNNER_OS -e RUNNER_TOOL_CACHE -e RUNNER_TEMP -e RUNNER_WORKSPACE -e ACTIONS_RUNTIME_URL -e ACTIONS_RUNTIME_TOKEN -e GITHUB_ACTIONS=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "${PWD}/":"/github/workspace" "${image}"
