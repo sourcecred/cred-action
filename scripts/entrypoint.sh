@@ -8,7 +8,12 @@ set -o pipefail
 
 # Tell the user files found immediately
 echo "Found files in workspace:"
-ls
+ls -la
+echo
+
+echo "OUR ENV:"
+env
+echo
 
 COMMAND="/bin/bash /build_static_site.sh"
 COMMAND="${COMMAND} --target ${INPUT_TARGET}"
