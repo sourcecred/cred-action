@@ -51,6 +51,25 @@ with:
 The project id is given to the scores function, and should correspond with any project
 ids referenced in the weights or projects configuration files.
 
+## Variables
+
+A detailed description of all variables is provided in the table below.
+
+| Name           | Description                                          | Required | Default                  |
+| ---------------|------------------------------------------------------|----------|--------------------------|
+| automated      | Push changes to the target branch, otherwise open PR | false    | false                    |
+| branch-against | Push or open PR against this branch                  | false    | master                   |
+| project        | The project identifier to use with sourcecred scores | true     | @${{ github.repository }}|
+| project-file   | The path to a file containing a project config       | true     |                          |
+| scores-json    | Relative path to save the scores.json                | false    | scores.json              |
+| target         | An empty directory into which to build the site      | false    | docs                     |
+| test-run       | Don't open a PR or push to a branch (just run)       | false    | false                    |
+| weights        | Path to a json file that contains weights config     | false    | null                     |
+| token          | Auth token to fetch the repository                   | false    | ${{ github.token }}      |
+
+
+Booleans (true, false) should be lowercase strings for consistency.
+
 ## Development
 
 ### Design

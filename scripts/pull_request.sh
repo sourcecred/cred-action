@@ -87,14 +87,14 @@ main () {
     fi
     echo "Branch for pull request is ${UPDATE_BRANCH}"
 
-    if [ -z "${SC_BRANCH_AGAINST}" ]; then
-        SC_BRANCH_AGAINST=master
+    if [ -z "${INPUT_BRANCH_AGAINST}" ]; then
+        INPUT_BRANCH_AGAINST=master
     fi
-    echo "Pull request will go against ${SC_BRANCH_AGAINST}"
+    echo "Pull request will go against ${INPUT_BRANCH_AGAINST}"
 
     # Ensure we have a GitHub token
     check_credentials
-    create_pull_request "${UPDATE_BRANCH}" "${SC_BRANCH_AGAINST}"
+    create_pull_request "${UPDATE_BRANCH}" "${INPUT_BRANCH_AGAINST}"
 
 }
 

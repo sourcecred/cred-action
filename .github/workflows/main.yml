@@ -1,0 +1,20 @@
+name: Main testing workflow
+on: [pull_request]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Actions Repository
+      uses: actions/checkout@v2
+    - name: Test GitHub Action
+      uses: ./
+      env: 
+        token: ${{ secrets.GITHUB_TOKEN }} 
+      with: 
+        project: "@sourcecred" 
+        project-file: .github/github.json 
+        weights: .github/weights.json 
+        branch-against: master 
+        automated: true 
+        test-run: true

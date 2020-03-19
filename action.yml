@@ -31,6 +31,10 @@ inputs:
   target:
     description: 'an empty directory into which to build the site'
     required: false
+    default: docs
+  test-run:
+    description: "Don't open a pull request or push to a branch, this is a test run"
+    default: false
   weights:
     description: 'path to a json file which contains a weights configuration.'
     default: null
@@ -43,12 +47,9 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    SC_TARGET: ${{ inputs.target }}
-    SC_PROJECT_FILE: ${{ inputs.project-file }}
-    SC_PROJECT: ${{ inputs.project }}
-    SC_AUTOMATED: ${{ inputs.automated }}
-    SC_BRANCH_AGAINST: ${{ inputs.branch-against }}
-    SC_SCORES_JSON: ${{ inputs.scores-json }}
-    SC_WEIGHTS: ${{ inputs.weights }}
+    INPUT_BRANCH_AGAINST: ${{ inputs.branch-against }}
+    INPUT_PROJECT_FILE: ${{ inputs.project-file }}
+    INPUT_SCORES_JSON: ${{ inputs.scores-json }}
+    INPUT_TEST_RUN: ${{ inputs.test-run }}
     SOURCECRED_GITHUB_TOKEN: ${{ inputs.token }}
     GITHUB_TOKEN: ${{ inputs.token }}
