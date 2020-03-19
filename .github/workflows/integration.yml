@@ -24,3 +24,31 @@ jobs:
           branch-against: master
           automated: true
           test-run: true
+
+  smoke-env:
+    name: Smoke ENV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Actions Repository
+        uses: actions/checkout@v2
+      - name: Generate expected ENV
+        run: .github/tests/expected_env.sh expected.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
+          GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
+      - name: Test local Action
+        uses: ./
+        env:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          entrypoint: .github/tests/smoke_env.sh
+          args: actual.txt
+          project: "@sourcecred"
+          project-file: .github/github.json
+          weights: .github/weights.json
+          branch-against: master
+          automated: true
+          test-run: true
+      - name: Show diff
+        run: diff -u expected.txt actual.txt
