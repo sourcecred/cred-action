@@ -7,18 +7,18 @@ set -o pipefail
 # We derive variables from the environment instead of command line
 
 # Tell the user files found immediately
-echo "Found files in workspace:"
+printf "Found files in workspace:\n"
 ls
 
 # Project file and if are both required for generation!
 # The action requires, but we have the double check here for a fallback
 if [ -z "${INPUT_PROJECT_FILE}" ]; then
-    echo "Project file (project-file) is required"
+    printf "Project file (project-file) is required\n"
     exit 1
 fi
 
 # Show the user where we are
-echo "Present working directory is:"
+printf "Present working directory is:\n"
 pwd
 ls
 
@@ -51,7 +51,7 @@ node /code/bin/sourcecred.js scores "${INPUT_PROJECT}" | python3 -m json.tool > 
 
 # Automated means that we push to a branch, otherwise we open a pull request
 if [ "${INPUT_AUTOMATED}" == "true" ]; then
-    echo "Automated PR requested"
+    printf "Automated PR requested\n"
     UPDATE_BRANCH="${INPUT_BRANCH_AGAINST}"
 else
     UPDATE_BRANCH="update/sourcecred-cred-$(date '+%Y-%m-%d')"
@@ -74,7 +74,7 @@ git checkout -b "${UPDATE_BRANCH}"
 git branch
 
 if [ "${INPUT_AUTOMATED}" == "true" ]; then
-    git pull origin "${UPDATE_BRANCH}" || echo "Branch not yet on remote"
+    git pull origin "${UPDATE_BRANCH}" || printf "Branch not yet on remote\n"
     git add "${INPUT_TARGET}/*"
     git add "${INPUT_SCORES_JSON}"
     git commit -m "Automated deployment to update cred in ${INPUT_TARGET} $(date '+%Y-%m-%d')"
