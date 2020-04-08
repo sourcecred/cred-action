@@ -26,7 +26,7 @@ PULLS_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls"
 check_credentials() {
 
     if [[ -z "${GITHUB_TOKEN}" ]]; then
-        echo "You must include the GITHUB_TOKEN as an environment variable."
+        printf "You must include the GITHUB_TOKEN as an environment variable.\n"
         exit 1
     fi
 
@@ -60,7 +60,7 @@ print(data[0]["head"]["ref"])')
 
     # Option 1: The pull request is already open
     if [[ "${PR}" == "${SOURCE}" ]]; then
-        printf '%s\n' "Pull request from ${SOURCE} to ${TARGET} is already open!"
+        printf '%s\n' "Pull request from ${SOURCE} to ${TARGET} is already open\n"
 
     # Option 2: Open a new pull request
     else
@@ -70,7 +70,7 @@ print(data[0]["head"]["ref"])')
             set -x;
             curl -fsSL -K "${curl_config}" -X POST --data "${DATA}" "${PULLS_URL}"
         )
-        echo $?
+        printf "$?\n"
     fi
 }
 
@@ -85,7 +85,7 @@ main() {
 
     # User specified branch for PR
     if [ -z "${UPDATE_BRANCH}" ]; then
-        echo "You must specify a branch to PR from."
+        printf "You must specify a branch to PR from.\n"
         exit 1
     fi
     printf '%s\n' "Branch for pull request is ${UPDATE_BRANCH}"
@@ -101,8 +101,8 @@ main() {
 
 }
 
-echo "==========================================================================
-START: Creating SourceCred Cred Update Pull Request!";
+printf "========================================================================== 
+START: Creating SourceCred Cred Update Pull Request\n";
 main "$@"
-echo "==========================================================================
-END: Finished";
+printf "==========================================================================
+END: Finished\n";
