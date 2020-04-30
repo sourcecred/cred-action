@@ -9,10 +9,10 @@ export SOURCECRED_DIRECTORY="${sourcecred_data}"
 # and customizes the entrypoint based on what the user has provided.
 # We derive variables from the environment instead of command line
 
-
 # Tell the user files found immediately
 echo "Found files in workspace:"
 ls
+
 
 # Project file and if are both required for generation!
 # The action requires, but we have the double check here for a fallback
